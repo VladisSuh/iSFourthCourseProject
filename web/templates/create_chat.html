@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать чат</title>
+    <style>
+        /* Глобальные стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #d4f1c5; /* Мягкий зелёный цвет фона */
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            margin: 20px 0 10px;
+            font-size: 1.5rem;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        select, input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            background: #457b9d; /* Глубокий синий */
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-danger {
+            background: #e63946; /* Алый */
+        }
+        .btn-danger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        #chat-message p {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: red;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #e63946; /* Алый */
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #457b9d; /* Глубокий синий */
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Создание новой чат-комнаты</h1>
+
+    <!-- Кнопка выхода -->
+    <a href="/chats/menu">Вернуться в меню</a>
+
+    <!-- Отображение ошибок -->
+    <div id="chat-message">
+        {{if .error}}
+        <p>{{.error}}</p>
+        {{end}}
+    </div>
+
+    <!-- Форма создания комнаты -->
+    <h2>Создать чат-комнату</h2>
+    <form id="create-chat-form" action="/chats/create_chat" method="post">
+        <label for="algorithm">Алгоритм:</label>
+        <select name="algorithm" id="algorithm" required>
+            <option value="macguffin">MacGuffin</option>
+            <option value="rc5">RC5</option>
+        </select>
+
+        <label for="mode">Режим:</label>
+        <select name="mode" id="mode" required>
+            <option value="ECB">ECB</option>
+            <option value="CBC">CBC</option>
+            <option value="CFB">CFB</option>
+            <option value="OFB">OFB</option>
+            <option value="CTR">CTR</option>
+            <option value="RandomDelta">Random Delta</option>
+        </select>
+
+        <label for="padding">Набивка:</label>
+        <select name="padding" id="padding" required>
+            <option value="Zeros">Zeros</option>
+            <option value="ANSIX923">ANSIX923</option>
+            <option value="PKCS7">PKCS7</option>
+            <option value="ISO10126">ISO10126</option>
+        </select>
+
+        <label for="invitee_username">Имя пользователя для приглашения:</label>
+        <input type="text" name="invitee_username" id="invitee_username" required>
+
+        <button type="submit" class="btn-primary">Создать комнату</button>
+    </form>
+</div>
+</body>
+</html>

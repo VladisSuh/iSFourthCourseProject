@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - Secret Chat</title>
+    <style>
+        /* Глобальные стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #d4f1c5; /* Мягкий зелёный цвет фона */
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        #message p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        #message p.success {
+            color: green;
+        }
+        #message p.error {
+            color: red;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            width: 100%;
+            max-width: 300px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background: #457b9d; /* Синий цвет кнопки */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        p {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        p a {
+            color: #e63946; /* Алый для ссылки */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Вход</h1>
+    <div id="message">
+        {{if .success}}
+        <p class="success">{{.success}}</p>
+        {{end}}
+        {{if .error}}
+        <p class="error">{{.error}}</p>
+        {{end}}
+    </div>
+    <form id="login-form" action="/login" method="post">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" name="username" id="username" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">Войти</button>
+    </form>
+    <p>Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+</div>
+</body>
+</html>

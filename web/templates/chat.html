@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Защищённый чат</title>
+    <style>
+        /* Глобальные стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #d4f1c5; /* Мягкий зелёный цвет фона */
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            height: 90vh; /* Используем почти весь экран */
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            margin: 10px 0 10px;
+            font-size: 1.5rem;
+        }
+        #messages {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa; /* Светло-серый фон */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            flex-grow: 2; /* Увеличено, чтобы занимать больше пространства */
+        }
+        #files {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa; /* Светло-серый фон */
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            height: 75px; /* Уменьшено до половины предыдущей высоты */
+        }
+        .message {
+            text-align: left;
+        }
+        .message strong {
+            color: #457b9d; /* Глубокий синий */
+        }
+        .message .text-muted {
+            color: #6c757d; /* Серый для метаданных */
+        }
+        input, select {
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-primary {
+            background: #457b9d; /* Глубокий синий */
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-danger {
+            background: #e63946; /* Алый */
+        }
+        .btn-danger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-success {
+            background: #2d6a4f; /* Тёмно-зелёный */
+        }
+        .btn-success:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-section {
+            margin-top: 20px;
+        }
+        .input-group {
+            max-width: 600px; /* Ограничиваем ширину полей ввода и кнопок */
+            margin: 0 auto;
+        }
+    </style>
+    <script src="/static/js/app.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <h1>Защищённый чат</h1>
+
+    <!-- Кнопки навигации -->
+    <a href="/chats/menu" class="btn btn-danger mb-3">Выйти</a>
+    <button id="delete-chat-btn" class="btn btn-danger mb-3">Удалить комнату</button>
+
+    <!-- Раздел для отображения сообщений -->
+    <h2>Сообщения</h2>
+    <div id="messages" class="border">
+        {{if .messages}}
+        {{range .messages}}
+        <div class="message mb-2">
+            <strong>{{.SenderId}}</strong>:
+            <span>{{printf "%s" .EncryptedMessage}}</span>
+            <span class="text-muted" style="font-size: 0.8em;">{{.CreatedAt}}</span>
+        </div>
+        {{end}}
+        {{else}}
+        <p>Нет сообщений в этой комнате.</p>
+        {{end}}
+    </div>
+
+    <!-- Раздел для отображения файлов -->
+    <h2>Файлы</h2>
+    <div id="files" class="border">
+        <p>Загрузка файлов будет происходить автоматически.</p>
+    </div>
+
+    <!-- Форма отправки сообщений -->
+    <div class="form-section">
+        <h2>Отправить сообщение</h2>
+        <div class="input-group mb-3">
+            <input type="text" id="message" class="form-control" placeholder="Введите сообщение" aria-label="Message" required>
+            <div class="input-group-append">
+                <button class="btn btn-primary" id="send-message-button" type="button">Отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма загрузки файлов -->
+    <div class="form-section">
+        <h2>Загрузить файл</h2>
+        <form id="file-upload-form" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+                <input type="file" id="file-input" class="form-control" name="file" aria-label="Upload File" required>
+                <div class="input-group-append">
+                    <button class="btn btn-success" id="upload-file-button" type="submit">Загрузить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
