@@ -55,7 +55,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	if exists {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User already exists"})
+		c.Redirect(http.StatusSeeOther, "/register?success=0")
 		return
 	}
 
@@ -85,7 +85,7 @@ func Login(c *gin.Context) {
 	var storedPassword string
 	err := db.QueryRowContext(context.Background(), "SELECT password FROM users WHERE username=$1", creds.Username).Scan(&storedPassword)
 	if err == sql.ErrNoRows {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+		c.Redirect(http.StatusSeeOther, "/login?error=username_or_password_incorrect")
 		return
 	} else if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
@@ -93,7 +93,7 @@ func Login(c *gin.Context) {
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(creds.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect password"})
+		c.Redirect(http.StatusSeeOther, "/login?error=username_or_password_incorrect")
 		return
 	}
 

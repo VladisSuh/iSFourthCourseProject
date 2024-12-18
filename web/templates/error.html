@@ -1,16 +1,68 @@
-<!-- web/templates/error.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ошибка</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        /* Глобальные стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #d4f1c5; /* Мягкий зелёный цвет фона */
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            color: #e63946; /* Алый цвет для заголовка ошибки */
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        p.error {
+            color: #e63946; /* Алый цвет текста ошибки */
+            font-weight: bold;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            background: #457b9d; /* Глубокий синий цвет кнопки */
+            border-radius: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h1>Произошла ошибка</h1>
-        <p style="color: red;">{{.error}}</p>
-        <a href="/chats/menu" class="btn btn-primary">Вернуться в меню чатов</a>
-    </div>
+<div class="container">
+    <h1>Произошла ошибка</h1>
+    <p class="error">{{.error}}</p>
+    <a href="/chats/menu">Вернуться в меню чатов</a>
+</div>
 </body>
 </html>

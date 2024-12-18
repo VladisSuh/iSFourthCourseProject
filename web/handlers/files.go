@@ -32,8 +32,9 @@ const MaxUploadSize = 50 << 20 // 50 MB
 var AllowedFileTypes = map[string]bool{
 	"image/jpeg":      true,
 	"image/png":       true,
+	"text/plain":      true,
 	"application/pdf": true,
-	"application/vnd.openxmlformats-officedocument.wordprocessingml.document": true, // DOCX
+	"application/vnd.openxmlformats-officedocument.wordprocessingml.document": true,
 	"application/msword": true,
 }
 
@@ -397,6 +398,7 @@ func sanitizeFileName(fileName string) string {
 		".jpg":  true,
 		".jpeg": true,
 		".png":  true,
+		".txt":  true,
 		".pdf":  true,
 		".docx": true,
 		".doc":  true,

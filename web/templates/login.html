@@ -90,6 +90,48 @@
         p a:hover {
             text-decoration: underline;
         }
+        /* Модальное окно */
+        .modal {
+            display: none; /* Скрываем окно по умолчанию */
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Затемнённый фон */
+        }
+
+        /* Содержимое модального окна */
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Кнопка внутри модального окна */
+        .modal-button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #e63946; /* Алый цвет */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .modal-button:hover {
+            background-color: #c5303d; /* Тёмно-красный при наведении */
+        }
     </style>
 </head>
 <body>
@@ -113,6 +155,33 @@
         <button type="submit">Войти</button>
     </form>
     <p>Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+    <div id="error-modal" class="modal">
+        <div class="modal-content">
+            <p id="modal-message"></p>
+            <button id="modal-ok" class="modal-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Читаем параметры URL
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("error") === "username_or_password_incorrect") {
+            const modal = document.getElementById("error-modal");
+            const modalMessage = document.getElementById("modal-message");
+
+            // Устанавливаем текст сообщения
+            modalMessage.textContent = "Неправильное имя пользователя или пароль.";
+
+            // Показываем модальное окно
+            modal.style.display = "block";
+
+            // Закрываем окно по нажатию на кнопку "OK"
+            const okButton = document.getElementById("modal-ok");
+            okButton.onclick = function() {
+                modal.style.display = "none";
+            };
+        }
+    </script>
 </div>
 </body>
 </html>
